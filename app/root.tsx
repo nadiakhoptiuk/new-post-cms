@@ -5,8 +5,16 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
 } from "react-router";
+import { MantineProvider } from "@mantine/core";
+import { Notifications } from "@mantine/notifications";
+import "@mantine/core/styles.css";
+import "@mantine/notifications/styles.css";
 
+export { loader } from "~/shared/.server/root/loader";
+
+import type { TRootLoader } from "~/shared/.server/root/loader";
 import type { Route } from "./+types/root";
 import stylesheet from "./app.css?url";
 
@@ -25,16 +33,23 @@ export const links: Route.LinksFunction = () => [
 ];
 
 export function Layout({ children }: { children: React.ReactNode }) {
+  const { theme } = useLoaderData<TRootLoader>();
+
   return (
-    <html lang="en">
+    <html lang='en' data-mantine-color-scheme={theme}>
       <head>
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta charSet='utf-8' />
+        <meta name='viewport' content='width=device-width, initial-scale=1' />
         <Meta />
         <Links />
       </head>
+
       <body>
-        {children}
+        <MantineProvider>
+          {children}
+          <Notifications />
+        </MantineProvider>
+
         <ScrollRestoration />
         <Scripts />
       </body>
@@ -63,11 +78,11 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
   }
 
   return (
-    <main className="pt-16 p-4 container mx-auto">
+    <main className='pt-16 p-4 container mx-auto'>
       <h1>{message}</h1>
       <p>{details}</p>
       {stack && (
-        <pre className="w-full p-4 overflow-x-auto">
+        <pre className='w-full p-4 overflow-x-auto'>
           <code>{stack}</code>
         </pre>
       )}
