@@ -1,0 +1,11 @@
+{
+  "dashboardLinks": {
+    "dashboard.myPosts": "My Posts",
+    "dashboard.posts": "Posts",
+    "dashboard.allPosts": "All",
+    "dashboard.onModeration": "On moderation",
+    "dashboard.postsComplains": "Complaints",
+    "dashboard.users": "Users",
+    "dashboard.tags": "Tags"
+  }
+}

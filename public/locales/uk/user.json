@@ -1,0 +1,14 @@
+{
+  "userData": {
+    "firstName": "Ім'я",
+    "lastName": "Прізвище",
+    "email": "Ел. пошта",
+    "password": "Пароль",
+    "role": "Доступ",
+    "createdAt": "Дата створення",
+    "updatedAt": "Дата оновлення",
+    "updatedBy": "Оновив"
+  },
+
+  "link.back": "Назад до всіх користувачів"
+}

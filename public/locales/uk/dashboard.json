@@ -1,0 +1,11 @@
+{
+  "dashboardLinks": {
+    "dashboard.myPosts": "Мої пости",
+    "dashboard.posts": "Пости",
+    "dashboard.allPosts": "Всі",
+    "dashboard.onModeration": "На модерації",
+    "dashboard.postsComplains": "Скарги",
+    "dashboard.users": "Користувачі",
+    "dashboard.tags": "Теги"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "action.save": "Зберегти",
+
+  "auth.logout": "Вийти",
+  "auth.login": "Вхід",
+  "auth.signup": "Реєстрація",
+  "auth.deleteAccount": "Видалити акаунт",
+
+  "userBarNavLinks": {
+    "profile": "Профіль",
+    "myPosts": "Мої пости"
+  },
+
+  "aria.toggleMenu": "Відкрити мобільне меню",
+
+  "formErrorsMessages": {
+    "emailError": "Введіть валідний email",
+    "passwordErrorMin": "Не менше 8 символів",
+    "passwordErrorMax": "Не більше 12 символів",
+    "stringErrorMin": "Обов'язкове поле",
+    "stringErrorMax": "Не більше 30 символів"
+  },
+
+  "buttons": {
+    "button.update": "Оновити",
+    "button.create": "Створити",
+    "button.edit": "Редагувати",
+    "button.cancel": "Відміна",
+    "button.delete": "Видалити"
+  },
+
+  "modal.title": "Ви впевнені, що хочете видалити"
+}

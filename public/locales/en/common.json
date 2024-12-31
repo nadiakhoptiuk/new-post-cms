@@ -1,0 +1,33 @@
+{
+  "action.save": "Save",
+
+  "auth.logout": "Log Out",
+  "auth.login": "Log In",
+  "auth.signup": "Register",
+  "auth.deleteAccount": "Delete account",
+
+  "userBarNavLinks": {
+    "profile": "Profile",
+    "myPosts": "My Posts"
+  },
+
+  "aria.toggleMenu": "Open Mobile Menu",
+
+  "formErrorsMessages": {
+    "emailError": "Must be a valid email",
+    "passwordErrorMin": "At least 8 symbols",
+    "passwordErrorMax": "No more than 12 symbols",
+    "stringErrorMin": "Required field",
+    "stringErrorMax": "Too many symbols"
+  },
+
+  "buttons": {
+    "button.update": "Update",
+    "button.create": "Create",
+    "button.edit": "Edit",
+    "button.cancel": "Cancel",
+    "button.delete": "Delete"
+  },
+
+  "modal.title": "Are you sure you want to delete"
+}
