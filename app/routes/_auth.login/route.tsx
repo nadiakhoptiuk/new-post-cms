@@ -1,6 +1,6 @@
 import { Box, Container } from "@mantine/core";
 
-// import { AuthForm } from "~/shared/components/modules/forms/AuthForm";
+import { AuthForm } from "~/shared/components/modules/AuthForm";
 
 export { action } from "./action";
 
@@ -20,7 +20,7 @@ export default function LoginPage() {
           },
         }}
       >
-        {/* <AuthForm formType='login' /> */}
+        <AuthForm formType='login' />
       </Container>
     </Box>
   );

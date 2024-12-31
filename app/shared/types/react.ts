@@ -1,6 +1,6 @@
 import { useLoaderData } from "react-router";
 import type { TextInputProps as MTextInputProps } from "@mantine/core";
-// import type { FormScope } from "@rvf/react-router";
+import type { FormScope } from "@rvf/react-router";
 
 // import type { LANG_EN, LANG_UK } from "../constants/locale";
 
@@ -12,11 +12,11 @@ export type WithChildren = {
 
 // export type TLocale = typeof LANG_EN | typeof LANG_UK;
 
+export type TRolesEnum = "admin" | "user";
+
 export type TErrorsMessages = {
   [key: string]: string;
 };
-
-export type TRolesEnum = "admin" | "user";
 
 export type TUser = {
   firstName: string;
@@ -54,6 +54,6 @@ export type THomeLoader = {
 
 export interface TTextInput extends MTextInputProps {
   label: string;
-  // scope: FormScope<string>;
+  scope: FormScope<string>;
   placeholder?: string;
 }

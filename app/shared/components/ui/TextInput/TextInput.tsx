@@ -4,7 +4,7 @@ import { TextInput as MTextInput } from "@mantine/core";
 
 import "@mantine/core/styles/Input.css";
 
-import { TTextInput } from "~/shared/types/remix";
+import type { TTextInput } from "~/shared/types/react";
 
 export const TextInput = ({ label, scope, placeholder }: TTextInput) => {
   const field = useField(scope);
@@ -21,7 +21,7 @@ export const TextInput = ({ label, scope, placeholder }: TTextInput) => {
         "aria-invalid": !!field.error(),
       })}
       error={field.error()}
-      size="md"
+      size='md'
       styles={{
         label: { fontWeight: "bold" },
         wrapper: { marginBottom: 20 },

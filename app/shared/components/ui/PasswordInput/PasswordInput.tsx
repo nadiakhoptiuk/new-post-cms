@@ -3,7 +3,7 @@ import { useField } from "@rvf/react-router";
 import { PasswordInput as MPasswordInput } from "@mantine/core";
 import "@mantine/core/styles/PasswordInput.css";
 
-import { TTextInput } from "~/shared/types/remix";
+import type { TTextInput } from "~/shared/types/react";
 
 export const PasswordField = ({ label, scope, placeholder }: TTextInput) => {
   const field = useField(scope);
@@ -19,7 +19,7 @@ export const PasswordField = ({ label, scope, placeholder }: TTextInput) => {
         "aria-describedby": errorId,
         "aria-invalid": !!field.error(),
       })}
-      size="md"
+      size='md'
       error={field.error()}
       styles={{
         label: { fontWeight: "bold" },
