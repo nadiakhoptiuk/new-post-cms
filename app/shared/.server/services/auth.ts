@@ -1,6 +1,4 @@
 import { redirect } from "react-router";
-import { Authenticator } from "remix-auth";
-import { FormStrategy } from "remix-auth-form";
 import { DrizzleError } from "drizzle-orm";
 
 import {
@@ -16,38 +14,24 @@ import type { GetCurrentUserOptions, GetRouteOptions } from "../types/common";
 import { NavigationLink } from "~/shared/constants/navigation";
 import {
   ROLE_ADMIN,
-  ROLE_USER,
   SESSION_ERROR_KEY,
   SESSION_USER_KEY,
 } from "~/shared/constants/common";
 // import { errorHandler } from "../utils/errorHandler";
 
-export const authenticator = new Authenticator<TSerializedUser>();
-
-authenticator.use(
-  new FormStrategy(async ({ form }) => {
-    const email = form.get("email");
-    const password = form.get("password");
-
-    if (typeof email !== "string" || typeof password !== "string") {
-      throw new Error("invalid data");
-    }
-
-    const serializedUser = await verifyUserAndSerialize(email, password);
-
-    return serializedUser;
-  }),
-  "user-login"
-);
-
 export const loginUser = async (request: Request) => {
+  const form = await request.formData();
+  const email = form.get("email");
+  const password = form.get("password");
+
+  if (typeof email !== "string" || typeof password !== "string") {
+    throw new Error("invalid data");
+  }
+
   const session = await getSession(request.headers.get("cookie"));
 
   try {
-    const serializedUser = await authenticator.authenticate(
-      "user-login",
-      request
-    );
+    const serializedUser = await verifyUserAndSerialize(email, password);
 
     session.set(SESSION_USER_KEY, serializedUser);
     const userRole = serializedUser.role;

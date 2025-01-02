@@ -4,10 +4,10 @@ import { HydratedRouter } from "react-router/dom";
 import i18next from "i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
 import Backend from "i18next-http-backend";
-import { getInitialNamespaces } from "remix-i18next/client";
 import { I18nextProvider, initReactI18next } from "react-i18next";
 
-import i18n from "~/shared/services/i18n";
+import i18nConfig from "~/shared/services/i18n";
+import { getMyInitialNamespaces } from "./shared/services/i18n.client";
 
 async function hydrate() {
   await i18next
@@ -15,9 +15,9 @@ async function hydrate() {
     .use(LanguageDetector) // Setup a client-side language detector
     .use(Backend) // Setup your backend
     .init({
-      ...i18n, // spread the configuration
+      ...i18nConfig, // spread the configuration
       // This function detects the namespaces your routes rendered while SSR use
-      ns: getInitialNamespaces(),
+      ns: getMyInitialNamespaces(),
       backend: { loadPath: "/locales/{{lng}}/{{ns}}.json" },
       detection: {
         // Here only enable htmlTag detection, we'll detect the language only
