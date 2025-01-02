@@ -6,7 +6,7 @@ import { AuthLayout } from "~/shared/components/layout/Auth";
 
 export { loader } from "./loader";
 
-// export const handle = { i18n: ["auth", "common"] };
+export const handle = { i18n: ["auth", "common"] };
 
 export default function DashBoardLayout() {
   const data = useLoaderData();

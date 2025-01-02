@@ -1,0 +1,31 @@
+.link {
+  width: max-content;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  column-gap: 10px;
+  padding: 8px 0px;
+
+  font-size: var(--mantine-font-size-md);
+
+  text-decoration: none;
+}
+
+.link:hover,
+.lonk:focus-visible {
+  color: var(--mantine-color-blue-5);
+  transition: all;
+  transition-duration: 150ms;
+}
+
+.accentLink {
+  composes: link;
+
+  color: var(--mantine-color-blue-8);
+}
+
+.unstyledLink {
+  composes: link;
+
+  color: var(--mantine-color-dark);
+}

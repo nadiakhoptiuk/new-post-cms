@@ -1,26 +1,26 @@
-// import { getAuthUser } from "~/shared/.server/services/auth";
+import { getAuthUser } from "~/shared/.server/services/auth";
 import { commitSession, getSession } from "~/shared/.server/services/session";
 
 import { SESSION_ERROR_KEY } from "~/shared/constants/common";
-// import { NavigationLink } from "~/shared/constants/navigation";
+import { NavigationLink } from "~/shared/constants/navigation";
 import type { Route } from "./+types/route";
 
 export const loader = async ({ request }: Route.LoaderArgs) => {
-  // await getAuthUser(
-  //   request,
-  //   {
-  //     isPublicRoute: true,
-  //     allowedRoles: [],
-  //     allowedRoutes: {
-  //       ADMIN: NavigationLink.DASHBOARD,
-  //       USER: NavigationLink.HOME,
-  //     },
-  //     isAuthRoute: true,
-  //   },
-  //   {
-  //     failureRedirect: NavigationLink.LOGIN,
-  //   }
-  // );
+  await getAuthUser(
+    request,
+    {
+      isPublicRoute: true,
+      allowedRoles: [],
+      allowedRoutes: {
+        admin: NavigationLink.DASHBOARD,
+        user: NavigationLink.HOME,
+      },
+      isAuthRoute: true,
+    },
+    {
+      failureRedirect: NavigationLink.LOGIN,
+    }
+  );
 
   const session = await getSession(request.headers.get("cookie"));
   const error = session.get(SESSION_ERROR_KEY);

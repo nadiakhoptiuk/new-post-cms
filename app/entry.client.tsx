@@ -1,18 +1,13 @@
-/**
- * By default, Remix will handle hydrating your app on the client for you.
- * You are free to delete this file if you'd like to, but if you ever want it revealed again, you can run `npx remix reveal` ✨
- * For more information, see https://remix.run/file-conventions/entry.client
- */
-
-import { HydratedRouter } from "react-router/dom";
 import { startTransition, StrictMode } from "react";
 import { hydrateRoot } from "react-dom/client";
+import { HydratedRouter } from "react-router/dom";
 import i18next from "i18next";
-import { I18nextProvider, initReactI18next } from "react-i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
 import Backend from "i18next-http-backend";
+import { getInitialNamespaces } from "remix-i18next/client";
+import { I18nextProvider, initReactI18next } from "react-i18next";
+
 import i18n from "~/shared/services/i18n";
-// import { getInitialNamespaces } from "remix-i18next/client";
 
 async function hydrate() {
   await i18next
@@ -22,7 +17,7 @@ async function hydrate() {
     .init({
       ...i18n, // spread the configuration
       // This function detects the namespaces your routes rendered while SSR use
-      // ns: getInitialNamespaces(),
+      ns: getInitialNamespaces(),
       backend: { loadPath: "/locales/{{lng}}/{{ns}}.json" },
       detection: {
         // Here only enable htmlTag detection, we'll detect the language only

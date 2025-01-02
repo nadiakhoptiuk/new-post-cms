@@ -29,6 +29,8 @@ export const enum NavigationLink {
   MY_POSTS = "/my-posts",
   PROFILE = "/profile",
   SIGNUP = "/signup",
+
+  CHANGE_LANGUAGE = "change-language",
 }
 
 export const DashboardNavLinks = [

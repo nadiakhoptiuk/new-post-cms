@@ -23,4 +23,8 @@ export default defineConfig(({ isSsrBuild }) => ({
       "@tabler/icons-react": "@tabler/icons-react/dist/esm/icons/index.mjs",
     },
   },
+
+  server: {
+    hmr: true,
+  },
 }));

@@ -2,7 +2,7 @@ import { useLoaderData } from "react-router";
 import type { TextInputProps as MTextInputProps } from "@mantine/core";
 import type { FormScope } from "@rvf/react-router";
 
-// import type { LANG_EN, LANG_UK } from "../constants/locale";
+import type { LANG_EN, LANG_UK } from "../constants/locale";
 
 export type NewSerializeFrom<T> = ReturnType<typeof useLoaderData<T>>;
 
@@ -10,7 +10,7 @@ export type WithChildren = {
   children: React.ReactNode;
 };
 
-// export type TLocale = typeof LANG_EN | typeof LANG_UK;
+export type TLocale = typeof LANG_EN | typeof LANG_UK;
 
 export type TRolesEnum = "admin" | "user";
 

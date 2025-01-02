@@ -5,9 +5,10 @@
     "email": "Email",
     "password": "Password",
     "role": "Access",
-    "createdAt": "Creating date",
-    "updatedAt": "Updating date",
-    "updatedBy": "Updated by"
+    "createdAt": "Creation date",
+    "updatedAt": "Update date",
+    "updatedBy": "Updated by",
+    "deletedAt": "Deletion date"
   },
 
   "link.back": "Back to All Users"

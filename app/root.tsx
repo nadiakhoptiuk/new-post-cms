@@ -9,8 +9,11 @@ import {
 } from "react-router";
 import { MantineProvider } from "@mantine/core";
 import { Notifications } from "@mantine/notifications";
+import { useChangeLanguage } from "remix-i18next/react";
 import "@mantine/core/styles.css";
 import "@mantine/notifications/styles.css";
+
+// export { meta } from "~/shared/utils/meta";
 
 export { loader } from "~/shared/.server/root/loader";
 
@@ -33,10 +36,11 @@ export const links: Route.LinksFunction = () => [
 ];
 
 export function Layout({ children }: { children: React.ReactNode }) {
-  const { theme } = useLoaderData<TRootLoader>();
+  const { theme, locale } = useLoaderData<TRootLoader>();
+  useChangeLanguage(locale);
 
   return (
-    <html lang='en' data-mantine-color-scheme={theme}>
+    <html lang={locale} data-mantine-color-scheme={theme}>
       <head>
         <meta charSet='utf-8' />
         <meta name='viewport' content='width=device-width, initial-scale=1' />

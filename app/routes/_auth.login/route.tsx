@@ -4,9 +4,9 @@ import { AuthForm } from "~/shared/components/modules/AuthForm";
 
 export { action } from "./action";
 
-// export const handle = {
-//   i18n: ["auth", "common", "user"],
-// };
+export const handle = {
+  i18n: ["auth", "common", "user"],
+};
 
 export default function LoginPage() {
   return (

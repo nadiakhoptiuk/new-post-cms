@@ -1,17 +1,17 @@
 import { Form } from "react-router";
 import { Avatar, Group, Menu, Text, UnstyledButton } from "@mantine/core";
-// import { useTranslation } from "react-i18next";
+import { useTranslation } from "react-i18next";
 import { IconChevronDown, IconLogout, IconTrash } from "@tabler/icons-react";
 
 import { StyledNavLink } from "../StyledNavLink/StyledNavLink";
 import { Button } from "../Button";
-// import { LanguageSelector } from "../LanguageSelector";
+import { LanguageSelector } from "../LanguageSelector";
 
 import { NavigationLink, UserBarNavLinks } from "~/shared/constants/navigation";
 import type { TUserBar } from "./UserBar.types";
 
-export const UserBar = ({ user }: TUserBar) => {
-  // const { t } = useTranslation();
+export const UserBar = ({ user, locale }: TUserBar) => {
+  const { t } = useTranslation();
 
   return (
     <Menu
@@ -41,19 +41,19 @@ export const UserBar = ({ user }: TUserBar) => {
               <StyledNavLink to={link} fullWidth>
                 {Icon && <Icon size={22} />}
 
-                {/* {t(`userBarNavLinks.${id}`)} */}
+                {t(`userBarNavLinks.${id}`)}
               </StyledNavLink>
             </Menu.Item>
           );
         })}
 
         <Menu.Divider styles={{ divider: { margin: "8px" } }} />
-        {/* <LanguageSelector
+        <LanguageSelector
           locale={locale}
           styles={{
             root: { width: "fit-content", padding: "8px 12px" },
           }}
-        /> */}
+        />
 
         <Menu.Divider styles={{ divider: { margin: "8px" } }} />
         <Menu.Item component='div' p='0'>
@@ -68,8 +68,7 @@ export const UserBar = ({ user }: TUserBar) => {
               variant='transparent'
             >
               <IconLogout size={22} stroke={1.5} style={{ marginRight: 10 }} />
-              {/* {t("auth.logout")} */}
-              logout
+              {t("auth.logout")}
             </Button>
           </Form>
         </Menu.Item>
@@ -87,8 +86,7 @@ export const UserBar = ({ user }: TUserBar) => {
               variant='transparent'
             >
               <IconTrash size={22} stroke={1.5} style={{ marginRight: 10 }} />
-              {/* {t("auth.deleteAccount")} */}
-              deleteAccount
+              {t("auth.deleteAccount")}
             </Button>
           </Form>
         </Menu.Item>

@@ -14,7 +14,6 @@ export default [
     route(NavigationLink.LOGIN, "./routes/_auth.login/route.tsx"),
     route(NavigationLink.SIGNUP, "./routes/_auth.signup/route.tsx"),
     route(NavigationLink.LOGOUT, "./routes/api/logout.ts"),
-    route(NavigationLink.DELETE_ACCOUNT, "./routes/api/deleteAccount.ts"),
   ]),
 
   // route("dashboard", "routes/dashboard/route.tsx", [
@@ -26,4 +25,6 @@ export default [
   //     route("all", "./routes/dashboard.posts.all/route.tsx"),
   //   ]),
   // ]),
+  route(NavigationLink.DELETE_ACCOUNT, "./routes/api/deleteAccount.ts"),
+  route(NavigationLink.CHANGE_LANGUAGE, "./routes/api/changeLanguage.ts"),
 ] satisfies RouteConfig;
