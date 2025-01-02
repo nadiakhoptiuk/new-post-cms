@@ -5,13 +5,16 @@ import {
   prefix,
   route,
 } from "@react-router/dev/routes";
+import { NavigationLink } from "./shared/constants/navigation";
 
 export default [
   index("./routes/home/route.tsx"),
 
   layout("./routes/_auth/route.tsx", [
-    route("login", "./routes/_auth.login/route.tsx"),
-    route("signup", "./routes/_auth.signup/route.tsx"),
+    route(NavigationLink.LOGIN, "./routes/_auth.login/route.tsx"),
+    route(NavigationLink.SIGNUP, "./routes/_auth.signup/route.tsx"),
+    route(NavigationLink.LOGOUT, "./routes/api/logout.ts"),
+    route(NavigationLink.DELETE_ACCOUNT, "./routes/api/deleteAccount.ts"),
   ]),
 
   // route("dashboard", "routes/dashboard/route.tsx", [

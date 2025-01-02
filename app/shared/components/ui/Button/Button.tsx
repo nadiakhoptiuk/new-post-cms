@@ -1,5 +1,5 @@
 import { Button as MButton } from "@mantine/core";
-import { TButton } from "./Button.types";
+import type { TButton } from "./Button.types";
 
 export const Button = ({
   children,
@@ -8,7 +8,7 @@ export const Button = ({
   ...rest
 }: TButton) => {
   return (
-    <MButton type={type} loading={loading} size="md" {...rest}>
+    <MButton type={type} loading={loading} size='md' {...rest}>
       {children}
     </MButton>
   );

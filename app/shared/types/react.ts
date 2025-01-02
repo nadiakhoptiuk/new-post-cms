@@ -18,6 +18,12 @@ export type TErrorsMessages = {
   [key: string]: string;
 };
 
+export type TSignupData = {
+  firstName: string;
+  lastName: string;
+  email: string;
+};
+
 export type TUser = {
   firstName: string;
   lastName: string;

@@ -4,9 +4,7 @@ import { users } from "./schema";
 
 export const timestamps = {
   updatedAt: timestamp(),
-  updatedById: t
-    .integer("updated_by_id")
-    .references((): t.AnyPgColumn => users.id),
+  updatedById: t.integer().references((): t.AnyPgColumn => users.id),
   createdAt: timestamp().defaultNow().notNull(),
   deletedAt: timestamp(),
 };

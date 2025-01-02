@@ -1,11 +1,11 @@
-// import { useRouteLoaderData } from "react-router";
+import { useRouteLoaderData } from "react-router";
 import { useDisclosure } from "@mantine/hooks";
 // import { useTranslation } from "react-i18next";
 import { Burger, Group } from "@mantine/core";
 
 import type { TRootLoader } from "~/shared/.server/root/loader";
 
-// import { UserBar } from "../../ui/UserBar";
+import { UserBar } from "../../ui/UserBar";
 import { Logo } from "../../ui/Logo";
 // import { BurgerMenu } from "../../ui/BurgerMenu";
 // import { AuthBlockVsLang } from "../../modules/AuthBlockVsLang";
@@ -16,7 +16,7 @@ import type { THomeLayout } from "./Home.types";
 import classes from "./Home.module.css";
 
 export function Home({ children, user }: THomeLayout) {
-  // const data = useRouteLoaderData<TRootLoader>("root");
+  const data = useRouteLoaderData<TRootLoader>("root");
   // const { t } = useTranslation(["common", "auth"]);
   const [menuOpened, { toggle: toggleMenu, close: closeMenu }] =
     useDisclosure(false);
@@ -35,9 +35,10 @@ export function Home({ children, user }: THomeLayout) {
 
           {/* {!user && <AuthBlockVsLang locale={data?.locale || DEFAULT_LANG} />} */}
 
-          {/* {user && (
-            <UserBar user={user} locale={data?.locale || DEFAULT_LANG} />
-          )} */}
+          {user && (
+            // <UserBar user={user} locale={data?.locale || DEFAULT_LANG} />
+            <UserBar user={user} locale={DEFAULT_LANG} />
+          )}
         </Group>
 
         {/* <BurgerMenu

@@ -4,6 +4,7 @@
     { "path": "./tsconfig.node.json" },
     { "path": "./tsconfig.vite.json" }
   ],
+  "exclude": ["node_modules"],
   "compilerOptions": {
     "checkJs": true,
     "verbatimModuleSyntax": true,

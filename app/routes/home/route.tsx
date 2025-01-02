@@ -8,7 +8,7 @@ import { Home } from "~/shared/components/layout/Home";
 import type { THomeLoader } from "~/shared/types/react";
 // import type { Route } from "./+types/route";
 
-// export { loader } from "./loader";
+export { loader } from "./loader";
 
 // export async function action({ request }: Route.LoaderArgs) {
 //   const formData = await request.formData();

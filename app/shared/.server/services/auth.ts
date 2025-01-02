@@ -1,194 +1,251 @@
-// import { redirect } from "react-router";
-// import { Authenticator } from "remix-auth";
-// import { FormStrategy } from "remix-auth-form";
+import { redirect } from "react-router";
+import { Authenticator } from "remix-auth";
+import { FormStrategy } from "remix-auth-form";
+import { DrizzleError } from "drizzle-orm";
 
-// import {
-//   createNewUser,
-//   getUserById,
-//   verifyUserAndSerialize,
-// } from "../repository/users";
-// import { commitSession, getSession } from "./session";
+import {
+  createNewUser,
+  deleteUserById,
+  getUserById,
+  verifyUserAndSerialize,
+} from "../repository/users";
+import { commitSession, getSession } from "./session";
 
-// import type { TSerializedUser } from "~/shared/types/react";
-// import type { GetCurrentUserOptions, GetRouteOptions } from "../types/common";
-// import { NavigationLink } from "~/shared/constants/navigation";
-// import {
-//   ROLE_ADMIN,
-//   ROLE_USER,
-//   SESSION_ERROR_KEY,
-//   SESSION_USER_KEY,
-// } from "~/shared/constants/common";
-// // import { errorHandler } from "../utils/errorHandler";
+import type { TSerializedUser } from "~/shared/types/react";
+import type { GetCurrentUserOptions, GetRouteOptions } from "../types/common";
+import { NavigationLink } from "~/shared/constants/navigation";
+import {
+  ROLE_ADMIN,
+  ROLE_USER,
+  SESSION_ERROR_KEY,
+  SESSION_USER_KEY,
+} from "~/shared/constants/common";
+// import { errorHandler } from "../utils/errorHandler";
 
-// export const authenticator = new Authenticator<TSerializedUser>();
+export const authenticator = new Authenticator<TSerializedUser>();
 
-// authenticator.use(
-//   new FormStrategy(async ({ form }) => {
-//     const email = form.get("email");
-//     const password = form.get("password");
+authenticator.use(
+  new FormStrategy(async ({ form }) => {
+    const email = form.get("email");
+    const password = form.get("password");
 
-//     if (typeof email !== "string" || typeof password !== "string") {
-//       throw new Error("invalid data");
-//     }
+    if (typeof email !== "string" || typeof password !== "string") {
+      throw new Error("invalid data");
+    }
 
-//     const serializedUser = await verifyUserAndSerialize(email, password);
+    const serializedUser = await verifyUserAndSerialize(email, password);
 
-//     return serializedUser;
-//   }),
-//   "user-login"
-// );
+    return serializedUser;
+  }),
+  "user-login"
+);
 
-// export const loginUser = async (request: Request) => {
-//   const session = await getSession(request.headers.get("cookie"));
+export const loginUser = async (request: Request) => {
+  const session = await getSession(request.headers.get("cookie"));
 
-//   try {
-//     const serializedUser = await authenticator.authenticate(
-//       "user-login",
-//       request
-//     );
+  try {
+    const serializedUser = await authenticator.authenticate(
+      "user-login",
+      request
+    );
 
-//     session.set(SESSION_USER_KEY, serializedUser);
-//     const userRole = serializedUser.role;
+    session.set(SESSION_USER_KEY, serializedUser);
+    const userRole = serializedUser.role;
 
-//     const successRedirect =
-//       userRole === ROLE_ADMIN ? NavigationLink.DASHBOARD : NavigationLink.HOME;
+    const successRedirect =
+      userRole === ROLE_ADMIN ? NavigationLink.DASHBOARD : NavigationLink.HOME;
 
-//     return redirect(successRedirect, {
-//       headers: { "Set-Cookie": await commitSession(session) },
-//     });
-//   } catch (error) {
-//     if (error instanceof Error) {
-//       session.set(SESSION_ERROR_KEY, error.message);
+    return redirect(successRedirect, {
+      headers: { "Set-Cookie": await commitSession(session) },
+    });
+  } catch (error) {
+    if (error instanceof DrizzleError) {
+      session.set(SESSION_ERROR_KEY, "Wrong request to database");
+      throw redirect(NavigationLink.SIGNUP, {
+        headers: { "Set-Cookie": await commitSession(session) },
+      });
+    } else if (error instanceof Error) {
+      session.set(SESSION_ERROR_KEY, error.message);
 
-//       throw redirect(NavigationLink.LOGIN, {
-//         headers: { "Set-Cookie": await commitSession(session) },
-//       });
-//     }
-//   }
-// };
+      throw redirect(NavigationLink.LOGIN, {
+        headers: { "Set-Cookie": await commitSession(session) },
+      });
+    }
 
-// export const signupUser = async (request: Request) => {
-//   const formData = await request.formData();
+    return error;
+  }
+};
 
-//   const email = formData.get("email");
-//   const firstName = formData.get("firstName");
-//   const lastName = formData.get("lastName");
-//   const password = formData.get("password");
+export const signupUser = async (request: Request) => {
+  const formData = await request.formData();
 
-//   if (
-//     typeof firstName !== "string" ||
-//     typeof email !== "string" ||
-//     typeof lastName !== "string" ||
-//     typeof password !== "string"
-//   ) {
-//     throw new Error("invalid data");
-//   }
+  const email = formData.get("email");
+  const firstName = formData.get("firstName");
+  const lastName = formData.get("lastName");
+  const password = formData.get("password");
 
-//   const role = ROLE_USER;
-//   const session = await getSession(request.headers.get("cookie"));
-//   try {
-//     await createNewUser({
-//       firstName,
-//       lastName,
-//       email,
-//       password,
-//       role,
-//     });
+  if (
+    typeof firstName !== "string" ||
+    typeof email !== "string" ||
+    typeof lastName !== "string" ||
+    typeof password !== "string"
+  ) {
+    throw new Error("invalid data");
+  }
 
-//     return redirect(NavigationLink.LOGIN, {
-//       headers: { "Set-Cookie": await commitSession(session) },
-//     });
-//   } catch (error) {
-//     if (error instanceof Error) {
-//       session.set(SESSION_ERROR_KEY, error.message);
+  const session = await getSession(request.headers.get("cookie"));
+  try {
+    await createNewUser({
+      firstName,
+      lastName,
+      email,
+      password,
+    });
 
-//       throw redirect(NavigationLink.SIGNUP, {
-//         headers: { "Set-Cookie": await commitSession(session) },
-//       });
-//     }
-//   }
-// };
+    return redirect(NavigationLink.LOGIN, {
+      headers: { "Set-Cookie": await commitSession(session) },
+    });
+  } catch (error) {
+    if (error instanceof DrizzleError) {
+      session.set(SESSION_ERROR_KEY, "Wrong request to database");
+      throw redirect(NavigationLink.SIGNUP, {
+        headers: { "Set-Cookie": await commitSession(session) },
+      });
+    } else if (error instanceof Error) {
+      session.set(SESSION_ERROR_KEY, error.message);
 
-// export const logoutUser = async (
-//   request: Request,
-//   options?: GetCurrentUserOptions
-// ) => {
-//   const { successRedirect } = options || {};
+      throw redirect(NavigationLink.SIGNUP, {
+        headers: { "Set-Cookie": await commitSession(session) },
+      });
+    }
+    return error;
+  }
+};
 
-//   const session = await getSession(request.headers.get("Cookie"));
-//   session.unset(SESSION_USER_KEY);
+export const logoutUser = async (
+  request: Request,
+  options?: GetCurrentUserOptions
+) => {
+  const { successRedirect } = options || {};
 
-//   return redirect(successRedirect || NavigationLink.HOME, {
-//     headers: {
-//       "Set-Cookie": await commitSession(session),
-//     },
-//   });
-// };
+  const session = await getSession(request.headers.get("Cookie"));
+  session.unset(SESSION_USER_KEY);
 
-// export const getAuthUser = async (
-//   request: Request,
-//   routeOptions: GetRouteOptions,
-//   options?: GetCurrentUserOptions
-// ) => {
-//   const { failureRedirect } = options || {};
-//   const {
-//     isPublicRoute,
-//     allowedRoles,
-//     allowedRoutes,
-//     isAuthRoute = false,
-//   } = routeOptions;
+  // return redirect(successRedirect || NavigationLink.HOME, {
+  //   headers: {
+  //     "Set-Cookie": await commitSession(session),
+  //   },
+  // });
+  return new Response(null, {
+    status: 302,
+    headers: {
+      Location: successRedirect || NavigationLink.HOME,
+      "Set-Cookie": await commitSession(session),
+    },
+  });
+};
 
-//   // try {
-//   const session = await getSession(request.headers.get("Cookie"));
-//   const sessionUser: TSerializedUser = session.get(SESSION_USER_KEY);
+export const deleteUserAccount = async (
+  request: Request,
+  options?: GetCurrentUserOptions
+) => {
+  const { successRedirect } = options || {};
 
-//   if (!sessionUser && !isPublicRoute) {
-//     session.unset(SESSION_USER_KEY);
-//     throw redirect(failureRedirect || NavigationLink.LOGIN, {
-//       headers: {
-//         "Set-Cookie": await commitSession(session),
-//       },
-//     });
-//   }
+  const session = await getSession(request.headers.get("Cookie"));
+  const userId = session.get(SESSION_USER_KEY).id;
 
-//   if (!sessionUser && isAuthRoute) {
-//     return null;
-//   }
+  const deletedUser = await deleteUserById(userId);
 
-//   if (!sessionUser && isPublicRoute) {
-//     return null;
-//   }
+  if (deletedUser.deletedAt !== null) {
+    session.unset(SESSION_USER_KEY);
 
-//   const existedUser = await getUserById(sessionUser.id);
+    // return redirect(successRedirect || NavigationLink.HOME, {
+    //   headers: {
+    //     "Set-Cookie": await commitSession(session),
+    //   },
+    // });
+    return new Response(null, {
+      status: 302,
+      headers: {
+        Location: successRedirect || NavigationLink.HOME,
+        "Set-Cookie": await commitSession(session),
+      },
+    });
+  }
+};
 
-//   if (existedUser && isAuthRoute) {
-//     throw redirect(allowedRoutes[sessionUser.role] || NavigationLink.HOME, {
-//       headers: {
-//         "Set-Cookie": await commitSession(session),
-//       },
-//     });
-//   }
+export const getAuthUser = async (
+  request: Request,
+  routeOptions: GetRouteOptions,
+  options?: GetCurrentUserOptions
+) => {
+  const { failureRedirect } = options || {};
+  const {
+    isPublicRoute,
+    allowedRoles,
+    allowedRoutes,
+    isAuthRoute = false,
+  } = routeOptions;
 
-//   if (!existedUser && !isPublicRoute) {
-//     session.unset(SESSION_USER_KEY);
-//     throw redirect(failureRedirect || NavigationLink.LOGIN, {
-//       headers: {
-//         "Set-Cookie": await commitSession(session),
-//       },
-//     });
-//   }
+  // try {
+  const session = await getSession(request.headers.get("Cookie"));
+  const sessionUser: TSerializedUser = session.get(SESSION_USER_KEY);
 
-//   if (existedUser && !allowedRoles.includes(sessionUser.role)) {
-//     throw redirect(allowedRoutes[sessionUser.role] || NavigationLink.HOME, {
-//       headers: {
-//         "Set-Cookie": await commitSession(session),
-//       },
-//     });
-//   }
+  if (!sessionUser && !isPublicRoute) {
+    session.unset(SESSION_USER_KEY);
+    throw redirect(failureRedirect || NavigationLink.LOGIN, {
+      headers: {
+        "Set-Cookie": await commitSession(session),
+      },
+    });
+  }
 
-//   return sessionUser;
-//   // } catch (error) {
-//   //   console.error("Error during auth process", error);
-//   //   errorHandler(error);
-//   // }
-// };
+  if (!sessionUser && isAuthRoute) {
+    return null;
+  }
+
+  if (!sessionUser && isPublicRoute) {
+    return null;
+  }
+
+  const existedUser = await getUserById(sessionUser.id);
+
+  if (existedUser && existedUser.deletedAt !== null) {
+    throw redirect(NavigationLink.HOME, {
+      headers: {
+        "Set-Cookie": await commitSession(session),
+      },
+    });
+  }
+
+  if (existedUser && isAuthRoute) {
+    throw redirect(allowedRoutes[sessionUser.role] || NavigationLink.HOME, {
+      headers: {
+        "Set-Cookie": await commitSession(session),
+      },
+    });
+  }
+
+  if (!existedUser && !isPublicRoute) {
+    session.unset(SESSION_USER_KEY);
+    throw redirect(failureRedirect || NavigationLink.LOGIN, {
+      headers: {
+        "Set-Cookie": await commitSession(session),
+      },
+    });
+  }
+
+  if (existedUser && !allowedRoles.includes(sessionUser.role)) {
+    throw redirect(allowedRoutes[sessionUser.role] || NavigationLink.HOME, {
+      headers: {
+        "Set-Cookie": await commitSession(session),
+      },
+    });
+  }
+
+  return sessionUser;
+  // } catch (error) {
+  //   console.error("Error during auth process", error);
+  //   errorHandler(error);
+  // }
+};

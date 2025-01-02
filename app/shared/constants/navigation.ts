@@ -12,6 +12,7 @@ import {
 
 export const enum NavigationLink {
   HOME = "/",
+
   DASHBOARD = "/dashboard",
   DASHBOARD_MY_POSTS = "/dashboard/my-posts",
   DASHBOARD_ALL_POSTS = "/dashboard/posts/all",
@@ -20,11 +21,13 @@ export const enum NavigationLink {
   DASHBOARD_USERS = "/dashboard/users",
   DASHBOARD_CURRENT_USER = "/dashboard/users/:userId",
   DASHBOARD_TAGS = "/dashboard/tags",
+
   LOGIN = "/login",
   LOGOUT = "/logout",
+  DELETE_ACCOUNT = "/delete-account",
+
   MY_POSTS = "/my-posts",
   PROFILE = "/profile",
-  DELETE_ACCOUNT = "/delete-account",
   SIGNUP = "/signup",
 }
 

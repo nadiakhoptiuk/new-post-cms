@@ -1,5 +1,9 @@
 import bcrypt from "bcryptjs";
-import { TDBUser, TSerializedUser, TUserPassword } from "~/shared/types/remix";
+import type {
+  TDBUser,
+  TSerializedUser,
+  TUserPassword,
+} from "~/shared/types/react";
 
 export async function passwordHash(password: string): Promise<string> {
   const saltRounds = 10;
@@ -23,7 +27,7 @@ export const serializeUser = (
   return { firstName, lastName, role, id };
 };
 
-export const verifyPassword = async (
+export const verifyPasswordAndSerialize = async (
   user: TDBUser & TUserPassword,
   enteredPassword: string
 ): Promise<TSerializedUser | null> => {
