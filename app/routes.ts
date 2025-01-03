@@ -20,6 +20,10 @@ export default [
     route(NavigationLink.DASHBOARD, "./routes/dashboard.home/route.tsx"),
     route(NavigationLink.DASHBOARD_USERS, "./routes/dashboard.users/route.tsx"),
     route(
+      NavigationLink.DASHBOARD_USERS_NEW,
+      "./routes/dashboard.users.new/route.tsx"
+    ),
+    route(
       NavigationLink.DASHBOARD_CURRENT_USER,
       "./routes/dashboard.users_.$userId/route.tsx",
       [

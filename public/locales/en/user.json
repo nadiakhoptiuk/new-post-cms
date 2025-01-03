@@ -13,5 +13,8 @@
   },
 
   "link.back": "Back to All Users",
-  "password.switch": "Change password?"
+  "password.switch": "Change password?",
+  "link.addNewUser": "Add a User",
+
+  "title.newUser": "Enter data for a new User"
 }

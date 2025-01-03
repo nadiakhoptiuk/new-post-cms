@@ -22,6 +22,7 @@ export type TSignupData = {
   firstName: string;
   lastName: string;
   email: string;
+  role?: TRolesEnum;
 };
 
 export type TUser = {

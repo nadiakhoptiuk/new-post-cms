@@ -12,8 +12,6 @@ import type { TUsersTable } from "./UsersTable.types";
 export const UsersTable = ({ users }: TUsersTable) => {
   const { t } = useTranslation("user");
 
-  console.log(users);
-
   const rows = users.map((user) => {
     const createdDate = formatDateWithTime(user.createdAt);
     const updatedDate = formatDateWithTime(user.updatedAt);
@@ -47,7 +45,15 @@ export const UsersTable = ({ users }: TUsersTable) => {
       <MTable highlightOnHover withColumnBorders>
         <MTable.Thead>
           <MTable.Tr>
-            <TableTh>{""}</TableTh>
+            <TableTh>
+              <StyledNavLink
+                variant='accent'
+                to={`${NavigationLink.DASHBOARD_USERS}/new`}
+                style={{ textWrap: "wrap" }}
+              >
+                {t("link.addNewUser", { ns: "user" })}
+              </StyledNavLink>
+            </TableTh>
             <TableTh>{t("userData.lastName")}</TableTh>
             <TableTh>{t("userData.firstName")}</TableTh>
             <TableTh>{t("userData.email")}</TableTh>

@@ -19,6 +19,7 @@ export const enum NavigationLink {
   DASHBOARD_POSTS_ON_MODERATION = "/dashboard/posts/on-moderation",
   DASHBOARD_POSTS_COMPLAINTS = "/dashboard/posts/complaints",
   DASHBOARD_USERS = "/dashboard/users",
+  DASHBOARD_USERS_NEW = "/dashboard/users/new",
   DASHBOARD_CURRENT_USER = "/dashboard/users/:userId",
   DASHBOARD_TAGS = "/dashboard/tags",
 
