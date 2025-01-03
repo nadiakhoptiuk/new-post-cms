@@ -1,6 +1,6 @@
 import { pgEnum, pgTable } from "drizzle-orm/pg-core";
 import * as t from "drizzle-orm/pg-core";
-import { timestamps } from "./columns.helpers";
+import { userTimestamps } from "./columns.helpers";
 
 export const rolesEnum = pgEnum("roles", ["admin", "user"]);
 
@@ -11,5 +11,5 @@ export const users = pgTable("User", {
   email: t.varchar({ length: 255 }).notNull().unique(),
   password: t.varchar({ length: 255 }).notNull(),
   role: rolesEnum().notNull().default("user"),
-  ...timestamps,
+  ...userTimestamps,
 });

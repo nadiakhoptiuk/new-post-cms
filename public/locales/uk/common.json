@@ -26,8 +26,9 @@
     "button.create": "Створити",
     "button.edit": "Редагувати",
     "button.cancel": "Відміна",
-    "button.delete": "Видалити"
+    "button.delete": "Видалити",
+    "button.restore": "Відновити"
   },
 
-  "modal.title": "Ви впевнені, що хочете видалити"
+  "modal.title": "Ви впевнені?"
 }

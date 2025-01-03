@@ -26,8 +26,9 @@
     "button.create": "Create",
     "button.edit": "Edit",
     "button.cancel": "Cancel",
-    "button.delete": "Delete"
+    "button.delete": "Delete",
+    "button.restore": "Restore"
   },
 
-  "modal.title": "Are you sure you want to delete"
+  "modal.title": "Are you sure?"
 }

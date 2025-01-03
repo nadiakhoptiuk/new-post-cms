@@ -1,7 +1,8 @@
 import { withZod } from "@rvf/zod";
 import { z } from "zod";
+
 import { ROLE_SELECT_OPTIONS } from "~/shared/constants/common";
-import { TErrorsMessages } from "~/shared/types/remix";
+import type { TErrorsMessages } from "~/shared/types/react";
 
 const ROLES = ROLE_SELECT_OPTIONS as [string, ...string[]];
 

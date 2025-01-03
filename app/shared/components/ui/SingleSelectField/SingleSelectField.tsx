@@ -26,6 +26,7 @@ export const SingleSelectField = <
         "aria-invalid": !!field.error(),
       })}
       error={field.error()}
+      styles={{ root: { flexGrow: 1 }, label: { fontWeight: "bold" } }}
       size='md'
       {...rest}
     />

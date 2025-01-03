@@ -1,3 +1,7 @@
-import { TUser } from "~/shared/types/remix";
+import type { TUser } from "~/shared/types/react";
 
-export type TEditUserForm = { userData: TUser; formType: "create" | "update" };
+export type TEditUserForm = {
+  userData: TUser;
+  formType: "create" | "update";
+  hasBeenDeleted?: boolean;
+};

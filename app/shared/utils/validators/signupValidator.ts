@@ -1,7 +1,7 @@
 import { withZod } from "@rvf/zod";
 import { z } from "zod";
 
-import { TErrorsMessages } from "~/shared/types/remix";
+import type { TErrorsMessages } from "~/shared/types/react";
 
 export const signupValidator = (errorMessages: TErrorsMessages) =>
   withZod(

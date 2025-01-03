@@ -8,8 +8,10 @@
     "createdAt": "Creation date",
     "updatedAt": "Update date",
     "updatedBy": "Updated by",
-    "deletedAt": "Deletion date"
+    "deletedAt": "Deletion date",
+    "deletedBy": "Deleted by"
   },
 
-  "link.back": "Back to All Users"
+  "link.back": "Back to All Users",
+  "password.switch": "Change password?"
 }

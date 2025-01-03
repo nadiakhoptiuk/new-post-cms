@@ -12,10 +12,12 @@ import type { TUsersTable } from "./UsersTable.types";
 export const UsersTable = ({ users }: TUsersTable) => {
   const { t } = useTranslation("user");
 
+  console.log(users);
+
   const rows = users.map((user) => {
-    const formattedCreatedDate = formatDateWithTime(user.createdAt);
-    const formattedUpdatedDate = formatDateWithTime(user.updatedAt);
-    const formattedDeletedDate = formatDateWithTime(user.deletedAt);
+    const createdDate = formatDateWithTime(user.createdAt);
+    const updatedDate = formatDateWithTime(user.updatedAt);
+    const deletedDate = formatDateWithTime(user.deletedAt);
 
     return (
       <MTable.Tr key={user.id}>
@@ -31,12 +33,11 @@ export const UsersTable = ({ users }: TUsersTable) => {
         <TableTd>{user.firstName}</TableTd>
         <TableTd>{user.email}</TableTd>
         <TableTd>{user.role}</TableTd>
-        <TableTd>{formattedCreatedDate}</TableTd>
-        <TableTd>{formattedUpdatedDate ? formattedUpdatedDate : ""}</TableTd>
-        <TableTd>
-          {user.updatedBy?.lastName} {user.updatedBy?.firstName}
-        </TableTd>
-        <TableTd>{formattedDeletedDate ? formattedDeletedDate : ""}</TableTd>
+        <TableTd>{createdDate}</TableTd>
+        <TableTd>{updatedDate ? updatedDate : ""}</TableTd>
+        <TableTd>{user.updatedBy ?? ""}</TableTd>
+        <TableTd>{deletedDate ? deletedDate : ""}</TableTd>
+        <TableTd>{user.deletedBy ?? ""}</TableTd>
       </MTable.Tr>
     );
   });
@@ -55,6 +56,7 @@ export const UsersTable = ({ users }: TUsersTable) => {
             <TableTh>{t("userData.updatedAt")}</TableTh>
             <TableTh>{t("userData.updatedBy")}</TableTh>
             <TableTh>{t("userData.deletedAt")}</TableTh>
+            <TableTh>{t("userData.deletedBy")}</TableTh>
           </MTable.Tr>
         </MTable.Thead>
 

@@ -31,6 +31,8 @@ export const enum NavigationLink {
   SIGNUP = "/signup",
 
   CHANGE_LANGUAGE = "change-language",
+  DELETE_USER = "delete-user",
+  RESTORE_USER = "restore-user",
 }
 
 export const DashboardNavLinks = [

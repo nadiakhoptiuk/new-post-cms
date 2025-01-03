@@ -43,6 +43,13 @@
       "when": 1735808691390,
       "tag": "0005_fluffy_spyke",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1735899334684,
+      "tag": "0006_faulty_meteorite",
+      "breakpoints": true
     }
   ]
 }

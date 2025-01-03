@@ -16,15 +16,23 @@ export default [
     route(NavigationLink.LOGOUT, "./routes/api/logout.ts"),
   ]),
 
-  // route("dashboard", "routes/dashboard/route.tsx", [
-  //   route("users", "./routes/dashboard.users/route.tsx", [
-  //     route(":userId", "./routes/dashboard.users_.$userId/route.tsx"),
-  //   ]),
+  layout("routes/dashboard/route.tsx", [
+    route(NavigationLink.DASHBOARD, "./routes/dashboard.home/route.tsx"),
+    route(NavigationLink.DASHBOARD_USERS, "./routes/dashboard.users/route.tsx"),
+    route(
+      NavigationLink.DASHBOARD_CURRENT_USER,
+      "./routes/dashboard.users_.$userId/route.tsx",
+      [
+        route(NavigationLink.DELETE_USER, "./routes/api/deleteUser.ts"),
+        route(NavigationLink.RESTORE_USER, "./routes/api/restoreUser.ts"),
+      ]
+    ),
 
-  //   ...prefix("posts", [
-  //     route("all", "./routes/dashboard.posts.all/route.tsx"),
-  //   ]),
-  // ]),
+    ...prefix("posts", [
+      route("all", "./routes/dashboard.posts.all/route.tsx"),
+    ]),
+  ]),
+
   route(NavigationLink.DELETE_ACCOUNT, "./routes/api/deleteAccount.ts"),
   route(NavigationLink.CHANGE_LANGUAGE, "./routes/api/changeLanguage.ts"),
 ] satisfies RouteConfig;

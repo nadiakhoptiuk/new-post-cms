@@ -24,9 +24,9 @@ export const TextInput = ({ label, scope, placeholder }: TTextInput) => {
       size='md'
       styles={{
         label: { fontWeight: "bold" },
-        wrapper: { marginBottom: 20 },
+        wrapper: { marginBottom: 10 },
         root: { position: "relative", flexGrow: 1 },
-        error: { position: "absolute", bottom: -17 },
+        error: { position: "absolute", bottom: -10 },
       }}
     />
   );

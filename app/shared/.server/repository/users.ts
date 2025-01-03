@@ -2,10 +2,8 @@ import { eq, sql } from "drizzle-orm";
 
 import { db } from "server/app";
 import { passwordHash, verifyPasswordAndSerialize } from "../utils/usersUtils";
-import { database } from "~/database/context";
 
 import type {
-  TDBUser,
   TSerializedUser,
   TSignupData,
   TUpdatedById,
@@ -17,7 +15,6 @@ import { users } from "~/database/schema";
 export async function createNewUser(userData: TSignupData & TUserPassword) {
   const { password, ...userDataWithOutPassword } = userData;
 
-  const db = database();
   const existedUser = await db
     .select()
     .from(users)
@@ -69,14 +66,25 @@ export async function verifyUserAndSerialize(email: string, password: string) {
 }
 
 export async function getAllUsers() {
-  const sq = db
+  const upd = db
     .select({
-      firstName: users.firstName,
-      lastName: users.lastName,
+      updatedBy: sql`CONCAT(${users.firstName}, ' ', ${users.lastName})`.as(
+        "updatedBy"
+      ),
       id: users.id,
     })
     .from(users)
-    .as("sq");
+    .as("upd");
+
+  const del = db
+    .select({
+      deletedBy: sql`CONCAT(${users.firstName}, ' ', ${users.lastName})`.as(
+        "deletedBy"
+      ),
+      id: users.id,
+    })
+    .from(users)
+    .as("del");
 
   const allUsers = await db
     .select({
@@ -84,32 +92,58 @@ export async function getAllUsers() {
       lastName: users.lastName,
       email: users.email,
       id: users.id,
-      createdAt: users.createdAt,
       role: users.role,
+      createdAt: users.createdAt,
       updatedAt: users.updatedAt,
+      updatedBy: upd.updatedBy,
       deletedAt: users.deletedAt,
+      deletedBy: del.deletedBy,
     })
     .from(users)
-    .leftJoin(sq, eq(users.updatedById, sq.id))
+    .leftJoin(upd, eq(users.updatedById, upd.id))
+    .leftJoin(del, eq(users.deletedById, del.id))
     .orderBy(users.lastName, users.firstName);
-
   return allUsers;
 }
 
 export async function getUserById(id: number) {
+  const upd = db
+    .select({
+      updatedBy: sql`CONCAT(${users.firstName}, ' ', ${users.lastName})`.as(
+        "updatedBy"
+      ),
+      id: users.id,
+    })
+    .from(users)
+    .as("upd");
+
+  const del = db
+    .select({
+      deletedBy: sql`CONCAT(${users.firstName}, ' ', ${users.lastName})`.as(
+        "deletedBy"
+      ),
+      id: users.id,
+    })
+    .from(users)
+    .as("del");
+
   const existedUser = await db
     .select({
       firstName: users.firstName,
       lastName: users.lastName,
       email: users.email,
       id: users.id,
-      createdAt: users.createdAt,
       role: users.role,
+      createdAt: users.createdAt,
       updatedAt: users.updatedAt,
+      updatedBy: upd.updatedBy,
       deletedAt: users.deletedAt,
+      deletedBy: del.deletedBy,
     })
     .from(users)
-    .where(eq(users.id, id));
+    .where(eq(users.id, id))
+    .leftJoin(upd, eq(users.updatedById, upd.id))
+    .leftJoin(del, eq(users.deletedById, del.id));
 
   return existedUser[0];
 }
@@ -130,13 +164,17 @@ export async function updateUserById(
 
   const updatedUser = await db
     .update(users)
-    .set({ ...userDataWithOutPassword, password: hashedPassword })
+    .set({
+      ...userDataWithOutPassword,
+      updatedAt: sql`NOW()`,
+      password: hashedPassword,
+    })
     .where(eq(users.id, id));
 
   return updatedUser;
 }
 
-export async function deleteUserById(id: number) {
+export async function deleteUserById(id: number, deletedById: number) {
   const existedUser = await getUserById(id);
 
   if (!existedUser) {
@@ -145,11 +183,32 @@ export async function deleteUserById(id: number) {
 
   const updatedUser = await db
     .update(users)
-    .set({ deletedAt: sql`NOW()` })
+    .set({ deletedAt: sql`NOW()`, deletedById: deletedById })
     .where(eq(users.id, id))
     .returning({
       id: users.id,
       deletedAt: users.deletedAt,
+      deletedById: users.deletedById,
+    });
+
+  return updatedUser[0];
+}
+
+export async function restoreUserById(id: number) {
+  const existedUser = await getUserById(id);
+
+  if (!existedUser) {
+    throw new Error("User with such id does not exist");
+  }
+
+  const updatedUser = await db
+    .update(users)
+    .set({ deletedAt: null, deletedById: null })
+    .where(eq(users.id, id))
+    .returning({
+      id: users.id,
+      deletedAt: users.deletedAt,
+      deletedById: users.deletedById,
     });
 
   return updatedUser[0];

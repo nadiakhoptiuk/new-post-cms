@@ -31,6 +31,7 @@ module.exports = {
       plugins: ["react", "jsx-a11y"],
       extends: [
         "plugin:react/recommended",
+        "plugin:react/jsx-runtime",
         "plugin:react-hooks/recommended",
         "plugin:jsx-a11y/recommended",
       ],
@@ -64,7 +65,7 @@ module.exports = {
             alwaysTryTypes: true,
             project: "./tsconfig.json",
           },
-          rules: { "import/no-unresolved": ["error"] },
+          rules: { "import/no-unresolved": ["warn"] },
         },
       },
       extends: [

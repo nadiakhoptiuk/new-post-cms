@@ -1,0 +1,27 @@
+.chevron {
+  transition: transform 200ms ease;
+}
+
+.button {
+  width: 100% !important;
+  display: block;
+  line-height: 1;
+  width: max-content;
+  padding: 8px 12px;
+  border-radius: var(--mantine-radius-sm);
+  text-decoration: none;
+
+  font-size: var(--mantine-font-size-sm);
+  font-weight: 500;
+
+  color: light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-0));
+}
+
+.button:hover,
+.button:focus {
+  background-color: light-dark(
+    var(--mantine-color-gray-0),
+    var(--mantine-color-dark-6)
+  );
+  box-shadow: var(--mantine-shadow-xs);
+}

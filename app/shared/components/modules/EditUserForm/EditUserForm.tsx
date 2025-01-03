@@ -1,7 +1,7 @@
 import { Form } from "react-router";
 import { useForm } from "@rvf/react-router";
 import { useTranslation } from "react-i18next";
-import { Group } from "@mantine/core";
+import { Grid, Group } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 
 import { userFormValidator } from "~/shared/utils/validators/userFormValidator";
@@ -10,12 +10,18 @@ import { Button } from "~/shared/components/ui/Button";
 import { SingleSelectField } from "~/shared/components/ui/SingleSelectField";
 import { TextInput } from "~/shared/components/ui/TextInput";
 import { Modal } from "~/shared/components/ui/Modal";
+import { PasswordInput } from "../../ui/PasswordInput";
 
 import { ROLE_SELECT_OPTIONS } from "~/shared/constants/common";
 import type { TEditUserForm } from "./EditUserForm.types";
 import type { TErrorsMessages } from "~/shared/types/react";
+import { NavigationLink } from "~/shared/constants/navigation";
 
-export const EditUserForm = ({ userData, formType }: TEditUserForm) => {
+export const EditUserForm = ({
+  userData,
+  formType,
+  hasBeenDeleted = false,
+}: TEditUserForm) => {
   const { t } = useTranslation(["user", "common"]);
   const [opened, { open, close }] = useDisclosure(false);
   const errorMessages = t("formErrorsMessages", {
@@ -35,7 +41,7 @@ export const EditUserForm = ({ userData, formType }: TEditUserForm) => {
         {...form.getFormProps()}
         style={{ maxWidth: "600px", marginLeft: "auto", marginRight: "auto" }}
       >
-        <Group>
+        <Group mb={10}>
           <TextInput
             label={t("userData.firstName", { ns: "user" })}
             scope={form.scope("firstName")}
@@ -46,12 +52,12 @@ export const EditUserForm = ({ userData, formType }: TEditUserForm) => {
           />
         </Group>
 
-        <Group>
+        <Group mb={10} styles={{ root: { alignItems: "flex-start" } }}>
           <TextInput
             label={t("userData.email", { ns: "user" })}
             scope={form.scope("email")}
           />
-          <TextInput
+          <PasswordInput
             label={t("userData.password", { ns: "user" })}
             scope={form.scope("password")}
           />
@@ -61,6 +67,9 @@ export const EditUserForm = ({ userData, formType }: TEditUserForm) => {
           label={t("userData.role", { ns: "user" })}
           scope={form.scope("role")}
           options={ROLE_SELECT_OPTIONS}
+          styles={{
+            root: { width: "50%", marginLeft: "auto", marginRight: "auto" },
+          }}
         />
 
         <Button
@@ -94,41 +103,60 @@ export const EditUserForm = ({ userData, formType }: TEditUserForm) => {
             root: { marginLeft: "auto", marginRight: "auto", display: "block" },
           }}
         >
-          {t("buttons.button.delete", {
-            ns: "common",
-          })}
+          {hasBeenDeleted
+            ? t("buttons.button.restore", {
+                ns: "common",
+              })
+            : t("buttons.button.delete", {
+                ns: "common",
+              })}
         </Button>
       )}
 
       <Modal
         opened={opened}
         onClose={close}
-        title={`${t("modal.title", { ns: "common" })} "${userData.firstName} ${
-          userData.lastName
-        }"?`}
+        title={t("modal.title", { ns: "common" })}
         p='lg'
         centered
       >
         {
-          <Group styles={{ root: { justifyContent: "center" } }}>
-            <Button variant='light' onClick={close}>
-              Cancel
-            </Button>
-
-            <Form method='post'>
-              <Button
-                type='submit'
-                loading={form.formState.isSubmitting}
-                c='white'
-                variant='filled'
-                bg='red'
-              >
-                {t("buttons.button.delete", {
-                  ns: "common",
-                })}
+          <Grid columns={2}>
+            <Grid.Col span={1}>
+              <Button variant='light' onClick={close} w='100%'>
+                Cancel
               </Button>
-            </Form>
-          </Group>
+            </Grid.Col>
+
+            <Grid.Col span={1}>
+              <Form
+                style={{}}
+                method='post'
+                action={
+                  hasBeenDeleted
+                    ? NavigationLink.RESTORE_USER
+                    : NavigationLink.DELETE_USER
+                }
+              >
+                <Button
+                  type='submit'
+                  loading={form.formState.isSubmitting}
+                  c='white'
+                  variant='filled'
+                  bg='red'
+                  fullWidth
+                >
+                  {hasBeenDeleted
+                    ? t("buttons.button.restore", {
+                        ns: "common",
+                      })
+                    : t("buttons.button.delete", {
+                        ns: "common",
+                      })}
+                </Button>
+              </Form>
+            </Grid.Col>
+          </Grid>
         }
       </Modal>
     </>

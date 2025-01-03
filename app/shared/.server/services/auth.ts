@@ -138,7 +138,7 @@ export const deleteUserAccount = async (
   const session = await getSession(request.headers.get("Cookie"));
   const userId = session.get(SESSION_USER_KEY).id;
 
-  const deletedUser = await deleteUserById(userId);
+  const deletedUser = await deleteUserById(userId, userId);
 
   if (deletedUser.deletedAt !== null) {
     session.unset(SESSION_USER_KEY);

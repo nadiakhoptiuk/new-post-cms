@@ -42,9 +42,12 @@ export type TUserPassword = {
 export interface TDBUser extends TUser {
   id: number;
   createdAt: Date;
-  updatedAt: Date | null;
+  updatedAt?: Date | null;
+  updatedBy?: string;
   updatedById?: number | null;
-  updatedBy?: TDBUser;
+  deletedAt?: Date | null;
+  deletedBy?: string;
+  deletedById?: number | null;
 }
 
 export interface TSerializedUser {
